@@ -3,8 +3,12 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.colorScheme) var colorScheme
+
+    @StateObject private var viewModel: LoginViewModel
     
-    @StateObject private var viewModel = LoginViewModel()
+    init(appState: AppState){
+        _viewModel = StateObject(wrappedValue: LoginViewModel(appState: appState))
+    }
     
     var body: some View {
         VStack(spacing:20){
@@ -13,23 +17,33 @@ struct LoginView: View {
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
+                .submitLabel(.done)
+                .onSubmit {
+                    Task {await viewModel.login()}
+                }
             
-            ZStack (alignment: .trailing) {
-                if viewModel.showPassword {
-                    TextField("Senha", text: $viewModel.password)
-                        .font(ThemeFonts.bodyLarge)
-                        .textFieldStyle(.roundedBorder)
-                } else {
-                    SecureField("Senha", text: $viewModel.password)
-                        .font(ThemeFonts.bodyLarge)
-                        .textFieldStyle(.roundedBorder)
+            HStack () {
+                Group{
+                    if viewModel.showPassword {
+                        TextField("Senha", text: $viewModel.password)
+                    } else {
+                        SecureField("Senha", text: $viewModel.password)
+                    }
                 }
-                Button( action : {
+                .font(ThemeFonts.bodyLarge)
+                .textFieldStyle(.roundedBorder)
+                .onChange(of: viewModel.password) { text in
+                    viewModel.password = String(text.prefix(12))
+                }
+                .submitLabel(.done)
+                .onSubmit {
+                    Task { await viewModel.login() }
+                }
+            }.overlay(alignment: .trailing) {
+                Image(systemName: !viewModel.showPassword ? "eye.slash" : "eye").onTapGesture {
                     viewModel.togglePasswordVisibility()
-                }) {
-                    Image(systemName: viewModel.showPassword ? "eye.slash" : "eye")
                 }
-                .padding(.trailing, 10)
+                .padding(.trailing, 8)
             }
             
             Button(action: {

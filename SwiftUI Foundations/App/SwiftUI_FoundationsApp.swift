@@ -7,21 +7,13 @@ struct SwiftUI_FoundationsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Group{
-                if appState.isLoading {
-                    ProgressView()
-                } else {
-                    switch appState.route {
-                    case .login:
-                        LoginView()
-                    case .home:
-                        HomeView()
-                    }
+            RootView()
+                .onTapGesture {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) // dismiss no teclado ao clicar na tela
                 }
-            }
-            .environmentObject(themeManager)
-            .environmentObject(appState)
-            .preferredColorScheme(themeManager.colorScheme)
+                .environmentObject(appState)
+                .environmentObject(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
         }
     }
 }

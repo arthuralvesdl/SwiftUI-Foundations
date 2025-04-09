@@ -78,8 +78,8 @@ class ThemeManager: ObservableObject {
         return ThemeColors.getThemeColors(for: colorScheme ?? .light)
     }
     
-    func setTheme(_ theme: String) {
-        selectedTheme = theme
+    func toggleTheme() {
+        selectedTheme = selectedTheme == "light" ? "dark" : "light"
         objectWillChange.send()
     }
 }

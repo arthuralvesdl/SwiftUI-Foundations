@@ -14,9 +14,12 @@ struct RootView: View {
                 case .checking:
                     SplashView()
                 case .loggedIn:
-                    HomeView(appState: appState, themeManager: themeManager)
+                    HomeView(appState: appState)
                 case .loggedOut:
                     LoginView(appState: appState)
+                        .onTapGesture {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) // dismiss no teclado ao clicar na tela
+                        }
                 }
             }
         }

@@ -8,9 +8,6 @@ struct SwiftUI_FoundationsApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .onTapGesture {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) // dismiss no teclado ao clicar na tela
-                }
                 .environmentObject(appState)
                 .environmentObject(themeManager)
                 .preferredColorScheme(themeManager.colorScheme)

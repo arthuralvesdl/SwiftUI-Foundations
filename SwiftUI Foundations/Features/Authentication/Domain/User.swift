@@ -1,4 +1,4 @@
-struct User {
+struct User: Codable {
     let id: String
     let name: String
     let email: String
@@ -20,27 +20,27 @@ struct User {
     }
 }
 
-extension User: Codable {
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case email
-        case token
-        case isAdmin
-        case isOwner
-        case phone
-        case isDisabled
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .name)
-        email = try container.decode(String.self, forKey: .email)
-        token = try container.decode(String.self, forKey: .token)
-        isAdmin = try container.decode(Bool.self, forKey: .isAdmin)
-        isOwner = try container.decode(Bool.self, forKey: .isOwner)
-        phone = try container.decodeIfPresent(String.self, forKey: .phone)
-        isDisabled = try container.decode(Bool.self, forKey: .isDisabled)
-    }
-}
+//extension User: Codable {
+//    enum CodingKeys: String, CodingKey {
+//        case id
+//        case name
+//        case email
+//        case token
+//        case isAdmin
+//        case isOwner
+//        case phone
+//        case isDisabled
+//    }
+//    
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        id = try container.decode(String.self, forKey: .id)
+//        name = try container.decode(String.self, forKey: .name)
+//        email = try container.decode(String.self, forKey: .email)
+//        token = try container.decode(String.self, forKey: .token)
+//        isAdmin = try container.decode(Bool.self, forKey: .isAdmin)
+//        isOwner = try container.decode(Bool.self, forKey: .isOwner)
+//        phone = try container.decodeIfPresent(String.self, forKey: .phone)
+//        isDisabled = try container.decode(Bool.self, forKey: .isDisabled)
+//    }
+//}
